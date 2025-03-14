@@ -21,7 +21,7 @@ export default function Navbar() {
           className="md:hidden text-cyan-400 text-2xl focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          ☰
+          {isOpen ? "✖" : "☰"}
         </button>
 
         {/* Navigation Links - Desktop */}
@@ -32,14 +32,16 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-black bg-opacity-90 absolute top-16 left-0 w-full p-6 flex flex-col items-center space-y-4 border-t border-cyan-400">
-          <NavItem href="/dashboard" pathname={pathname} text="Dashboard" />
-          <NavItem href="/profile" pathname={pathname} text="Profile" />
-          <NavItem href="/marketplace" pathname={pathname} text="Marketplace" />
-        </div>
-      )}
+      {/* Mobile Navigation Menu (Full Screen Dropdown) */}
+      <div
+        className={`absolute top-16 left-0 w-full bg-black bg-opacity-90 transition-transform duration-300 ease-in-out ${
+          isOpen ? "h-auto py-4 flex flex-col items-center" : "hidden"
+        }`}
+      >
+        <NavItem href="/dashboard" pathname={pathname} text="Dashboard" />
+        <NavItem href="/profile" pathname={pathname} text="Profile" />
+        <NavItem href="/marketplace" pathname={pathname} text="Marketplace" />
+      </div>
     </nav>
   );
 }
@@ -50,10 +52,10 @@ function NavItem({ href, pathname, text }: { href: string; pathname: string; tex
   return (
     <Link
       href={href}
-      className={`px-4 py-2 rounded-lg transition-all duration-300 ${
+      className={`block w-full text-center py-3 text-lg transition-all duration-300 ${
         isActive
-          ? "text-cyan-300 neon-glow border border-cyan-400"
-          : "text-gray-300 hover:text-cyan-400 hover:border-cyan-300 border border-transparent"
+          ? "text-cyan-300 neon-glow border-b border-cyan-400"
+          : "text-gray-300 hover:text-cyan-400 hover:border-b hover:border-cyan-300"
       }`}
     >
       {text}
