@@ -10,9 +10,11 @@ body {
 }
 
 
-/* Cyberpunk Neon Glow */
-.neon-glow {
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+/* Cyberpunk Soft Neon Effect */
+.neon-text {
+    text-shadow: 0 0 3px rgba(0, 255, 255, 0.8), 
+               0 0 6px rgba(0, 255, 255, 0.6), 
+               0 0 12px rgba(0, 255, 255, 0.4);
 }
 
 /* Animated border glow */
@@ -34,6 +36,84 @@ body {
 .neon-border {
   animation: glow 2s infinite alternate;
 }
+
+/* Soft neon text */
+.neon-text {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.8), 
+               0 0 10px rgba(0, 255, 255, 0.6), 
+               0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Animated glowing border */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+}
+
+.neon-border {
+  animation: pulse-glow 2s infinite alternate;
+}
+
+/* Smooth hover animation */
+.hover-glow:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Neon glow effect for text */
+.neon-text {
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.8), 
+               0 0 10px rgba(0, 255, 255, 0.6), 
+               0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+/* Cyberpunk-style animated glowing border */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+}
+
+.neon-border {
+  animation: pulse-glow 2s infinite alternate;
+}
+
+/* Animated Neon Glow */
+@keyframes neon-flicker {
+  0% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(0, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  }
+}
+
+.neon-glow {
+  animation: neon-flicker 1.5s infinite alternate;
+}
+
+/* Smooth XP Bar Animation */
+.progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
 
 
 

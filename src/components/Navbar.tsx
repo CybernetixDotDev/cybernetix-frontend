@@ -10,9 +10,11 @@ export default function Navbar() {
     <nav className="w-full bg-black bg-opacity-80 border-b border-cyan-400 shadow-lg shadow-cyan-500/20">
       <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
-        <Link href="/" className="text-3xl font-bold text-cyan-400 neon-glow">
-          Cybernetix
-        </Link>
+        <Link href="/" className="text-3xl font-bold text-cyan-400 neon-text transition-all hover:scale-105"
+>
+  Cybernetix
+</Link>
+
 
         {/* Navigation Links */}
         <div className="space-x-6 text-lg font-medium">
@@ -41,3 +43,10 @@ function NavItem({ href, pathname, text }: { href: string; pathname: string; tex
     </Link>
   );
 }
+
+<Link
+  href="/profile"
+  className="px-4 py-2 rounded-lg transition-all duration-300 hover-glow"
+>
+  Profile
+</Link>
