@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -32,16 +33,22 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu - FIXED POSITION AND Z-INDEX */}
-      {isOpen && (
-        <div
-          className="fixed top-16 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-6 border-t border-cyan-400 z-50"
-        >
-          <NavItem href="/dashboard" pathname={pathname} text="Dashboard" onClick={() => setIsOpen(false)} />
-          <NavItem href="/profile" pathname={pathname} text="Profile" onClick={() => setIsOpen(false)} />
-          <NavItem href="/marketplace" pathname={pathname} text="Marketplace" onClick={() => setIsOpen(false)} />
-        </div>
-      )}
+      {/* Animated Mobile Navigation Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="fixed top-16 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-6 border-t border-cyan-400 z-50"
+          >
+            <NavItem href="/dashboard" pathname={pathname} text="Dashboard" onClick={() => setIsOpen(false)} />
+            <NavItem href="/profile" pathname={pathname} text="Profile" onClick={() => setIsOpen(false)} />
+            <NavItem href="/marketplace" pathname={pathname} text="Marketplace" onClick={() => setIsOpen(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
@@ -60,16 +67,23 @@ function NavItem({
 }) {
   const isActive = pathname === href;
   return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className={`block w-full text-center py-3 text-lg transition-all duration-300 ${
-        isActive
-          ? "text-cyan-300 neon-glow border-b border-cyan-400"
-          : "text-gray-300 hover:text-cyan-400 hover:border-b hover:border-cyan-300"
-      }`}
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
     >
-      {text}
-    </Link>
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`block w-full text-center py-3 text-lg transition-all duration-300 ${
+          isActive
+            ? "text-cyan-300 neon-glow border-b border-cyan-400"
+            : "text-gray-300 hover:text-cyan-400 hover:border-b hover:border-cyan-300"
+        }`}
+      >
+        {text}
+      </Link>
+    </motion.div>
   );
 }
