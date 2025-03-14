@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { ethers, Eip1193Provider } from "ethers";
 
 interface Web3ContextProps {
@@ -15,6 +15,14 @@ const Web3Context = createContext<Web3ContextProps | undefined>(undefined);
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
+  // Restore wallet connection from local storage
+  useEffect(() => {
+    const storedWallet = localStorage.getItem("walletAddress");
+    if (storedWallet) {
+      setWalletAddress(storedWallet);
+    }
+  }, []);
+
   // Connect Wallet
   const connectWallet = async (): Promise<void> => {
     try {
@@ -22,22 +30,26 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         alert("MetaMask is required!");
         return;
       }
-      // Explicitly cast window.ethereum as Eip1193Provider
-    const provider = new ethers.BrowserProvider(window.ethereum as Eip1193Provider);
-    const signer = await provider.getSigner();
-    setWalletAddress(await signer.getAddress());
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error connecting wallet:", error.message);
-    } else {
-      console.error("Unexpected error:", error);
+
+      const provider = new ethers.BrowserProvider(window.ethereum as Eip1193Provider);
+      const signer = await provider.getSigner();
+      const address = await signer.getAddress();
+
+      setWalletAddress(address);
+      localStorage.setItem("walletAddress", address); // Persist session
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Error connecting wallet:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
     }
-  }
-};
-    
-  // Disconnect Wallet
+  };
+
+  // Disconnect Wallet (Clear session)
   const disconnectWallet = (): void => {
     setWalletAddress(null);
+    localStorage.removeItem("walletAddress"); // Clear session
   };
 
   // Buy NFT

@@ -9,7 +9,7 @@ import { useWeb3 } from "../context/Web3Context";
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const { walletAddress, connectWallet } = useWeb3();
+  const { walletAddress, connectWallet, disconnectWallet } = useWeb3();
 
   return (
     <nav className="w-full bg-black bg-opacity-80 border-b border-cyan-400 shadow-lg shadow-cyan-500/20 relative z-50">
@@ -20,12 +20,28 @@ export default function Navbar() {
         </Link>
 
         {/* Wallet Connection Button */}
-        <button
-          className="hidden md:block px-4 py-2 bg-cyan-400 text-black rounded-lg hover:bg-cyan-500 transition-all"
-          onClick={connectWallet}
-        >
-          {walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : "Connect Wallet"}
-        </button>
+        <div className="flex space-x-4">
+          {walletAddress ? (
+            <div className="flex items-center space-x-3">
+              <span className="text-cyan-300">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</span>
+              <button
+                className="px-4 py-2 bg-red-500 text-black rounded-lg hover:bg-red-600 transition-all"
+                onClick={disconnectWallet}
+              >
+                Disconnect
+              </button>
+            </div>
+          ) : (
+            <button
+              className="px-4 py-2 bg-cyan-400 text-black rounded-lg hover:bg-cyan-500 transition-all"
+              onClick={connectWallet}
+            >
+              Connect Wallet
+            </button>
+            )}
+            </div>
+      
+        
 
         {/* Mobile Menu Toggle */}
         <button
