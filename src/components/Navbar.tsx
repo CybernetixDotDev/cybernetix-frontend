@@ -33,7 +33,7 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Animated Mobile Navigation Menu */}
+      {/* Animated Mobile Navigation Menu with Neon Blur Effect */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -41,7 +41,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="fixed top-16 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-6 border-t border-cyan-400 z-50"
+            className="fixed top-16 left-0 w-full h-screen bg-black bg-opacity-60 backdrop-blur-md backdrop-saturate-150 border-t border-cyan-400 flex flex-col items-center justify-center space-y-6 z-50"
           >
             <NavItem href="/dashboard" pathname={pathname} text="Dashboard" onClick={() => setIsOpen(false)} />
             <NavItem href="/profile" pathname={pathname} text="Profile" onClick={() => setIsOpen(false)} />

@@ -135,6 +135,34 @@ body {
   }
 }
 
+/* Neon border animation */
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+}
+
+.neon-border {
+  animation: pulse-glow 1.5s infinite alternate;
+}
+
+/* Smooth NFT card hover effect */
+.nft-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.nft-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+}
+
+
 
 
 
