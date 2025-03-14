@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { ethers } from "ethers";
 
 interface Web3ContextProps {
@@ -21,6 +21,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         alert("MetaMask is required!");
         return;
       }
+  
       const provider = new ethers.BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       setWalletAddress(await signer.getAddress());
