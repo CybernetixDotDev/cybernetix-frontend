@@ -114,6 +114,27 @@ body {
   transition: width 0.5s ease-in-out;
 }
 
+/* Smooth scaling for text */
+@media (max-width: 640px) {
+  .neon-text {
+    font-size: 1.8rem;
+  }
+}
+
+/* Responsive card padding */
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 16px;
+  }
+}
+
+/* Adjust grid layout for better spacing */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 
 
 
