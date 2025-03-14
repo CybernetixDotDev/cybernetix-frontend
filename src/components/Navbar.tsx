@@ -2,22 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <nav className="w-full bg-black bg-opacity-80 border-b border-cyan-400 shadow-lg shadow-cyan-500/20">
       <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
-        <Link href="/" className="text-3xl font-bold text-cyan-400 neon-text transition-all hover:scale-105"
->
-  Cybernetix
-</Link>
+        <Link href="/" className="text-3xl font-bold text-cyan-400 neon-text">
+          Cybernetix
+        </Link>
 
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-cyan-400 text-2xl"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          ☰
+        </button>
 
         {/* Navigation Links */}
-        <div className="space-x-6 text-lg font-medium">
+        <div className={`md:flex space-x-6 text-lg font-medium ${isOpen ? "block" : "hidden"} md:block`}>
           <NavItem href="/dashboard" pathname={pathname} text="Dashboard" />
           <NavItem href="/profile" pathname={pathname} text="Profile" />
           <NavItem href="/marketplace" pathname={pathname} text="Marketplace" />
@@ -43,10 +51,3 @@ function NavItem({ href, pathname, text }: { href: string; pathname: string; tex
     </Link>
   );
 }
-
-<Link
-  href="/profile"
-  className="px-4 py-2 rounded-lg transition-all duration-300 hover-glow"
->
-  Profile
-</Link>
