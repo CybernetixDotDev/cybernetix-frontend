@@ -9,7 +9,7 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-black bg-opacity-80 border-b border-cyan-400 shadow-lg shadow-cyan-500/20">
+    <nav className="w-full bg-black bg-opacity-80 border-b border-cyan-400 shadow-lg shadow-cyan-500/20 relative z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center py-4 px-6">
         {/* Logo */}
         <Link href="/" className="text-3xl font-bold text-cyan-400 neon-text">
@@ -24,7 +24,7 @@ export default function Navbar() {
           {isOpen ? "✖" : "☰"}
         </button>
 
-        {/* Navigation Links - Desktop */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-6 text-lg font-medium">
           <NavItem href="/dashboard" pathname={pathname} text="Dashboard" />
           <NavItem href="/profile" pathname={pathname} text="Profile" />
@@ -32,26 +32,37 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu (Full Screen Dropdown) */}
-      <div
-        className={`absolute top-16 left-0 w-full bg-black bg-opacity-90 transition-transform duration-300 ease-in-out ${
-          isOpen ? "h-auto py-4 flex flex-col items-center" : "hidden"
-        }`}
-      >
-        <NavItem href="/dashboard" pathname={pathname} text="Dashboard" />
-        <NavItem href="/profile" pathname={pathname} text="Profile" />
-        <NavItem href="/marketplace" pathname={pathname} text="Marketplace" />
-      </div>
+      {/* Mobile Navigation Menu - FIXED POSITION AND Z-INDEX */}
+      {isOpen && (
+        <div
+          className="fixed top-16 left-0 w-full h-screen bg-black bg-opacity-90 flex flex-col items-center justify-center space-y-6 border-t border-cyan-400 z-50"
+        >
+          <NavItem href="/dashboard" pathname={pathname} text="Dashboard" onClick={() => setIsOpen(false)} />
+          <NavItem href="/profile" pathname={pathname} text="Profile" onClick={() => setIsOpen(false)} />
+          <NavItem href="/marketplace" pathname={pathname} text="Marketplace" onClick={() => setIsOpen(false)} />
+        </div>
+      )}
     </nav>
   );
 }
 
 // Navigation Item Component
-function NavItem({ href, pathname, text }: { href: string; pathname: string; text: string }) {
+function NavItem({
+  href,
+  pathname,
+  text,
+  onClick,
+}: {
+  href: string;
+  pathname: string;
+  text: string;
+  onClick?: () => void;
+}) {
   const isActive = pathname === href;
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={`block w-full text-center py-3 text-lg transition-all duration-300 ${
         isActive
           ? "text-cyan-300 neon-glow border-b border-cyan-400"
