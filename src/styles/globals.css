@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles */
+body {
+  @apply bg-black text-white;
+}
+
+
+/* Cyberpunk Neon Glow */
+.neon-glow {
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff;
+}
+
+/* Animated border glow */
+@keyframes glow {
+  0% {
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    border-color: rgba(0, 255, 255, 1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 1);
+  }
+  100% {
+    border-color: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+  }
+}
+
+.neon-border {
+  animation: glow 2s infinite alternate;
+}
+
+
+
+
