@@ -1,12 +1,13 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { ethers } from "ethers";
+import { ethers, Eip1193Provider } from "ethers";
 
 interface Web3ContextProps {
   walletAddress: string | null;
-  connectWallet: () => void;
-  buyNFT: (nftAddress: string, price: string) => void;
+  connectWallet: () => Promise<void>;
+  disconnectWallet: () => void;
+  buyNFT: (nftAddress: string, price: string) => Promise<void>;
 }
 
 const Web3Context = createContext<Web3ContextProps | undefined>(undefined);
@@ -14,49 +15,61 @@ const Web3Context = createContext<Web3ContextProps | undefined>(undefined);
 export function Web3Provider({ children }: { children: React.ReactNode }) {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
 
-  // Connect to Wallet
-  const connectWallet = async () => {
+  // Connect Wallet
+  const connectWallet = async (): Promise<void> => {
     try {
       if (!window.ethereum) {
         alert("MetaMask is required!");
         return;
       }
-  
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-      setWalletAddress(await signer.getAddress());
-    } catch (error) {
-      console.error("Error connecting wallet:", error);
+      // Explicitly cast window.ethereum as Eip1193Provider
+    const provider = new ethers.BrowserProvider(window.ethereum as Eip1193Provider);
+    const signer = await provider.getSigner();
+    setWalletAddress(await signer.getAddress());
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error connecting wallet:", error.message);
+    } else {
+      console.error("Unexpected error:", error);
     }
+  }
+};
+    
+  // Disconnect Wallet
+  const disconnectWallet = (): void => {
+    setWalletAddress(null);
   };
 
-  // Buy NFT Function
-  const buyNFT = async (nftAddress: string, price: string) => {
+  // Buy NFT
+  const buyNFT = async (nftAddress: string, price: string): Promise<void> => {
     if (!walletAddress) {
       alert("Please connect your wallet first!");
       return;
     }
 
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
+      const provider = new ethers.BrowserProvider(window.ethereum as Eip1193Provider);
       const signer = await provider.getSigner();
 
-      // Simulate NFT Purchase (Replace with actual smart contract function)
       const tx = await signer.sendTransaction({
-        to: nftAddress, // Seller address or smart contract address
+        to: nftAddress,
         value: ethers.parseEther(price),
       });
 
       await tx.wait();
       alert(`NFT purchased successfully! TX Hash: ${tx.hash}`);
-    } catch (error) {
-      console.error("Purchase failed:", error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Purchase failed:", error.message);
+      } else {
+        console.error("Unexpected error:", error);
+      }
       alert("Purchase failed, check console for details.");
     }
   };
 
   return (
-    <Web3Context.Provider value={{ walletAddress, connectWallet, buyNFT }}>
+    <Web3Context.Provider value={{ walletAddress, connectWallet, disconnectWallet, buyNFT }}>
       {children}
     </Web3Context.Provider>
   );
