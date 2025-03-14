@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useWeb3 } from "../context/Web3Context";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const { walletAddress, connectWallet } = useWeb3();
 
   return (
     <nav className="w-full bg-black bg-opacity-80 border-b border-cyan-400 shadow-lg shadow-cyan-500/20 relative z-50">
@@ -16,6 +18,14 @@ export default function Navbar() {
         <Link href="/" className="text-3xl font-bold text-cyan-400 neon-text">
           Cybernetix
         </Link>
+
+        {/* Wallet Connection Button */}
+        <button
+          className="hidden md:block px-4 py-2 bg-cyan-400 text-black rounded-lg hover:bg-cyan-500 transition-all"
+          onClick={connectWallet}
+        >
+          {walletAddress ? `${walletAddress.slice(0, 6)}...${walletAddress.slice(-4)}` : "Connect Wallet"}
+        </button>
 
         {/* Mobile Menu Toggle */}
         <button

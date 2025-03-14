@@ -1,6 +1,7 @@
 "use client";
 
 import MotionWrapper from "../../components/MotionWrapper";
+import { useWeb3 } from "../../context/Web3Context";
 
 export default function MarketplacePage() {
   return (
@@ -50,12 +51,16 @@ export default function MarketplacePage() {
 
 // NFT Card Component
 function NFTCard({ image, title, price }: { image: string; title: string; price: string }) {
+  const { buyNFT } = useWeb3();
   return (
     <div className="bg-gray-900 bg-opacity-80 border border-cyan-400 shadow-lg shadow-cyan-500/20 rounded-xl p-4 text-center neon-border transform transition-all duration-300 hover:-translate-y-2 hover:shadow-cyan-500">
       <img src={image} alt={title} className="w-full h-64 object-cover rounded-lg border border-cyan-400" />
       <h2 className="text-xl font-bold text-cyan-300 mt-4">{title}</h2>
-      <p className="text-gray-400 mt-2">{price}</p>
-      <button className="mt-4 px-6 py-2 text-lg font-bold text-black bg-cyan-400 rounded-lg hover:bg-cyan-500 transition-all">
+      <p className="text-gray-400 mt-2">{price} ETH</p>
+      <button
+        className="mt-4 px-6 py-2 text-lg font-bold text-black bg-cyan-400 rounded-lg hover:bg-cyan-500 transition-all"
+        onClick={() => buyNFT("0x123...abc", price.replace(" ETH", ""))}
+      >
         Buy Now
       </button>
     </div>
